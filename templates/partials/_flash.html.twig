@@ -1,0 +1,41 @@
+<div>
+{% for label, messages in app.flashes %}
+    {% for message in messages %}   
+            <div class="{{label}} show">
+                {% if label is same as 'success' %}
+                    <span class="far fa-check-circle"></span>
+                {% elseif label is same as 'danger' %}
+                    <span class="fas fa-exclamation-triangle"></span>
+                {% endif %}
+                <span class="msg"> {{message}} </span>
+                <span id="close-btn" class="close-btn">
+                    <span class="fas fa-times"></span>
+                </span>
+            </div>
+    {% endfor %}
+{% endfor %}
+</div>
+
+<script>
+    $('.close-btn').click(function(){
+        $('.success').addClass("hide");
+        $('.success').removeClass("show");
+    });
+    $('.success')
+    setTimeout(function(){
+        $('.success').addClass("hide");
+        $('.success').removeClass("show");
+    }, 5000);
+</script>
+
+<script>
+    $('.close-btn').click(function(){
+        $('.danger').addClass("hide");
+        $('.danger').removeClass("show");
+    });
+    $('.danger')
+    setTimeout(function(){
+        $('.danger').addClass("hide");
+        $('.danger').removeClass("show");
+    }, 5000);
+</script>
