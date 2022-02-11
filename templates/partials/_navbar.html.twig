@@ -1,0 +1,55 @@
+{% block navbar %}
+{% set currentRoute = app.request.attributes.get('_route') %}
+
+
+<nav class="nav">
+    <div class="nav-menu flex-row">
+        <div class="nav-brand">
+            <a href="{{path('homepage')}} " class="text-gray">Diggerz Delight</a>
+        </div>
+        <div class="toggle-collapse">
+            <div class="toggle-icons">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        <div>
+            <ul class="nav-items">
+                <li class="nav-link {{(currentRoute == 'homepage') ? 'active'}} ">
+                    <a href="{{path('homepage')}} ">Accueil</a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">Catégories</a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">Pages</a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">Contact</a>
+                </li>
+
+                {# CONNECTION PART #}
+                {% if app.user %}
+                <li class="nav-link">
+                    <a href="{{path('app_logout')}}" style="color: red;">Déconnexion</a>
+                </li>
+                {% else %}    
+                <li class="nav-link {{(currentRoute == 'app_login') ? 'active'}} ">
+                    <a href="{{path('app_login')}} ">Connexion / Inscription</a>
+                </li>
+                {% endif %}
+                
+
+            </ul>
+        </div>
+        <div class="social text-gray">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-github-square"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i> </a>
+        </div>
+    </div>
+</nav>
+
+
+
+{% endblock %}

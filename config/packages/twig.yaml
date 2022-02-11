@@ -1,0 +1,10 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+
+    # Register your global variables under the globals key:
+    globals:
+        ig_token: '%env(IG_TOKEN)%'
+
+when@test:
+    twig:
+        strict_variables: true

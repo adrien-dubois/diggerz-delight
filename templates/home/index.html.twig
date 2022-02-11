@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HipHop Culture Blog{% endblock %}
+
+{% block body %}
+
+<main>
+
+		{# HERO SECTION #}
+		<section class="site-title">
+			<div class="site-background" data-aos="fade-up" data-aos-delay="100">
+				<h3>The 6th borough of HipHop</h3>
+				<h1>Diggerz Delight</h1>
+				<button class="btn"><a href="#blog">Explorer</a></button>
+			</div>
+		</section>
+
+		{# CAROUSEL SECTION #}
+		<section>
+			<div class="blog" id="blog">
+				<div class="container">
+					<div
+						class="owl-carousel owl-theme blog-post">
+
+						{# ARTICLE #}
+						{% for post in posts %}
+							<div class="blog-content" data-aos="fade-right" data-aos-delay="200">
+								<img src="{{asset('build/images/posts/' ~ post.picture )}}" alt="Article {{post.id}} ">
+								<div class="blog-title">
+									<h3>
+										{{post.title}}
+									</h3>
+									<button class="btn btn-blog">
+										{{post.subtitle}}
+									</button>
+									<span>
+										{{post.time}}
+									</span>
+								</div>
+							</div>
+						{% endfor %}
+
+					</div>
+
+					<div class="owl-navigation">
+						<span class="owl-nav-prev">
+							<i class="fas fa-long-arrow-alt-left"></i>
+						</span>
+						<span class="owl-nav-next">
+							<i class="fas fa-long-arrow-alt-right"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		{# BIG ARTICLES  #}
+
+		<section class="container">
+			<div class="site-content">
+				<div
+					class="posts">
+
+					{# ARTICLE #}
+					{% for post in posts %}
+						<div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+							<div class="post-image">
+								<div>
+									<img src="{{asset('build/images/posts/' ~ post.picture )}}" alt="Article {{post.id}} " class="img">
+								</div>
+								<div class="post-info flex-row">
+									<span>
+										<i class="fas fa-user text-gray"></i>&nbsp;&nbsp;{{post.user.fullName}}
+									</span>
+									<span>
+										<i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;{{post.createdAt |localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y') }}
+									</span>
+									<span>{{post.comments | length}}
+										Commentaires</span>
+								</div>
+							</div>
+							<div class="post-title">
+								<a href="#">{{post.title}}
+								</a>
+								<p>
+									{{post.text|u.truncate(150, '...')}}
+								</p>
+								<button class="btn post-btn"><a href="#"> Lire plus &nbsp;<i class="fas fa-arrow-right"></i></a>
+								</button>
+							</div>
+						</div>
+						
+					{% endfor %}
+
+				</div>
+
+				{% include "partials/_sidebar.html.twig" %}
+			</div>
+		</section>
+
+	</main>
+{% endblock %}

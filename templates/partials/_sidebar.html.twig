@@ -1,0 +1,58 @@
+{# SIDEBAR #}
+<aside
+	class="sidebar">
+
+	{# CATEGORY SECTION #}
+	<div class="category">
+		<h2>Categories</h2>
+		<ul
+			class="category-list">
+
+			{# CATEGORIES #}
+			{% for category in categories %}
+				<li class="list-items" data-aos="fade-left" data-aos-delay="100">
+					<a href="#">#{{category.name}}
+					</a>
+					<span>{{category.posts | length}}
+					</span>
+				</li>
+			{% endfor %}
+
+		</ul>
+	</div>
+
+	{# POPULAR POSTS SECTION #}
+	<div class="popular-post">
+		<h2>Articles populaires</h2>
+		{% for post in topPosts %}
+			<div class="post-content" data-aos="flip-up" data-aos-delay="200">
+				<div class="post-image">
+					<div>
+						<img src="{{asset('build/images/posts/' ~ post.picture )}}" alt="Article {{post.id}} " class="img">
+					</div>
+					<div class="post-info flex-row">
+						<span>
+							<i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;{{post.createdAt |date("d/m/Y") }}
+						</span>
+						<span>{{post.comments | length}}
+							Commentaires</span>
+					</div>
+				</div>
+				<div class="post-title">
+					<a href="#">{{post.title}}
+					</a>
+				</div>
+			</div>
+		{% endfor %}
+    </div>
+
+    {# SEARCH #}
+    <div class="search" data-aos="fade-up" data-aos-delay="200">
+        <h2>Rechercher</h2>
+        <div class="form-element">
+            <input type="text" class="input-element" placeholder="Ex: Zulu Nation">
+            <button class="btn form-btn">Dig It</button>
+        </div>
+    </div>
+    
+</aside>

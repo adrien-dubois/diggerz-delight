@@ -1,0 +1,63 @@
+{% block footer %}
+
+<footer class="footer">
+    <div class="container">
+        <div class="about-us" data-aos="fade-right" data-aos-delay="300">
+            <h2>À propos</h2>
+            <p>
+                Dolore do laboris voluptate consectetur enim laboris enim aute minim minim incididunt sunt. Quis enim elit proident ullamco pariatur nisi. Mollit ex duis aliqua occaecat aute. Pariatur do duis ullamco consectetur id.
+            </p>
+        </div>
+        <div class="search" data-aos="fade-right" data-aos-delay="300">
+            <h2>Newsletter</h2>
+            <p>
+                Stay tuned! Inscrivez vous à la newsletter
+            </p>
+            <div class="form-element">
+                <input type="text" placeholder="Email"><span><i class="fas fa-chevron-right"></i></span>
+            </div>
+        </div>
+        <div class="instagram" data-aos="fade-left" data-aos-delay="300">
+            <h2>Instagram</h2>
+            <div id="instafeed-container"></div>
+        </div>
+        <div class="follow" data-aos="fade-left" data-aos-delay="300">
+            <h2>Réseaux Sociaux</h2>
+            <p>Keep diggin' us</p>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-github-square"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i> </a>
+        </div>
+    </div>
+
+    <div class="rights flex-row">
+        <h4 class="text-gray">
+            Copyright ©2022 All right reserved | made with ❤ by <a href="https://white-umbrella.fr" target="_blank">White Umbrella Dev</a>
+        </h4>
+    </div>
+
+    <div class="move-up">
+        <span><i class="fas fa-arrow-circle-up fa-2x"></i></span>
+    </div>
+</footer>
+
+{% endblock %}
+{% block javascripts %}
+
+{# SCRIPT FOR DISPLAY INSTA FEED #}
+<script src="https://cdn.jsdelivr.net/gh/stevenschobert/instafeed.js@2.0.0rc1/src/instafeed.min.js"></script>
+<script type="text/javascript">
+var userFeed = new Instafeed({
+    get: 'user',
+    target: "instafeed-container",
+    resolution: 'low_resolution',
+    limit: 6,
+
+    // the token is stocked ine a var_env that is configured in twig.yaml
+    accessToken: '{{ ig_token }}'
+});
+userFeed.run();
+</script>
+
+{% endblock %}
