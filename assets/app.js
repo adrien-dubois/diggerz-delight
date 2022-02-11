@@ -17,7 +17,7 @@ import '@fortawesome/fontawesome-free/js/regular';
 import '@fortawesome/fontawesome-free/js/brands';
 
 // For JQuery
-// import $ from 'jquery';
+import $ from 'jquery';
 
 // start the Stimulus application
 // import './bootstrap';

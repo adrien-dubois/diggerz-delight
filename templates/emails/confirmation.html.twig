@@ -1,0 +1,29 @@
+{% apply inline_css %}
+
+    <style>
+        p span{
+            padding: .5rem .4rem;
+            background: #bdc3c7;
+        }
+        p a{
+            font-style: italic;
+        }
+        img{
+            width: 35%;
+        }
+    </style>
+
+<img src="{{ email.image('@images/mail.jpg') }} " alt="banner">
+
+<h1>Code d'activation de votre compte Diggerz Delight</h1>
+
+
+<p>Bonjour, {{name}} </p>
+<br>
+<p>Vous venez de vous enregistrer sur le blog <b>Diggerz Delight</b>. Votre identifiant de connexion sera votre adresse e-mail que vous venez de renseigner : <code><a href="mailto:{{ email.to[0].address }}">{{ email.to[0].address }}</a>  </code> </p>
+<p>Votre code d'activation est le <span><code>{{otp}}</code></span> </p>
+<br>
+<p>Afin d'activer votre compte <a href="{{absolute_url(path('activation', {'token': token}))}}">veuillez cliquer sur ce lien</a>
+    (ce lien sera valide jusqu'au {{ expiration|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y') }})</p>
+
+{% endapply %}

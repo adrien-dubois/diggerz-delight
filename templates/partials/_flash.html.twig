@@ -16,26 +16,5 @@
 {% endfor %}
 </div>
 
-<script>
-    $('.close-btn').click(function(){
-        $('.success').addClass("hide");
-        $('.success').removeClass("show");
-    });
-    $('.success')
-    setTimeout(function(){
-        $('.success').addClass("hide");
-        $('.success').removeClass("show");
-    }, 5000);
-</script>
+{{ encore_entry_script_tags('flash') }}
 
-<script>
-    $('.close-btn').click(function(){
-        $('.danger').addClass("hide");
-        $('.danger').removeClass("show");
-    });
-    $('.danger')
-    setTimeout(function(){
-        $('.danger').addClass("hide");
-        $('.danger').removeClass("show");
-    }, 5000);
-</script>

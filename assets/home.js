@@ -1,5 +1,5 @@
 import $ from 'jquery';
-global.$ =  $;
+// global.$ =  $;
 import AOS from 'aos';
 import 'owl.carousel';
 

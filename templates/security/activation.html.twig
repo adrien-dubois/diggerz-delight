@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Activation - {{parent()}}
+{% endblock %}
+
+{% block body %}
+
+{# {% if app.user.  %}{% endif %} #}
+
+{% dump app.user %}
+
+<div class="activate">
+    <div class="form">
+        {{form_start(formView, {'attr': {'class': 'login-form'}})}}
+
+            <i class="fas fa-user-check"></i>
+            {{ form_widget(formView.otp) }}
+            {{ form_row(formView.submit) }}
+        
+        {{form_end(formView)}}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Titre - {{parent()}}
+{% endblock %}
+
+{% block body %}
+
+<section class="single-article">
+
+<div class="banner">
+    <img src="{{asset('posts/' ~ post.picture )}}" alt="Article {{post.id}} " class="img">
+</div>
+
+    <div class="single-blog">
+        
+        {# INFO BAR #}
+        <div class="post-content single-post">
+            <div class="post-info flex-row" style="justify-content: space-between;">
+                <span>
+                    <i class="fas fa-user text-gray"></i>&nbsp;&nbsp;{{post.user.fullName}}
+                </span>
+                <span>
+                    <i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;{{post.createdAt |localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y') }}
+                </span>
+                <span>{{post.comments | length}}
+                    Commentaires</span>
+            </div>
+        </div>
+
+        {# TITLE ARTICLE #}
+        <h1 class="single-title">{{post.title}}</h1>
+
+        {# ARTICLE #}
+        <div class="article">
+            {{post.text | nl2br}}
+        </div>
+
+    </div>
+
+    <post-comments data-post="{{ post.id }}" data-user="{{app.user ? app.user.id : 0 }}"></post-comments>
+
+</section>
+
+{% endblock %}
