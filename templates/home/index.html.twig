@@ -80,12 +80,12 @@
 								</div>
 							</div>
 							<div class="post-title">
-								<a href="#">{{post.title}}
+								<a href="{{path('post_single', {id: post.id})}} ">{{post.title}}
 								</a>
 								<p>
 									{{post.text|u.truncate(150, '...')}}
 								</p>
-								<button class="btn post-btn"><a href="#"> Lire plus &nbsp;<i class="fas fa-arrow-right"></i></a>
+								<button class="btn post-btn"><a href="{{path('post_single', {id: post.id})}} "> Lire plus &nbsp;<i class="fas fa-arrow-right"></i></a>
 								</button>
 							</div>
 						</div>

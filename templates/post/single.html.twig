@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Titre - {{parent()}}
+    {{post.title}} {{parent()}}
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 <section class="single-article">
 
 <div class="banner">
-    <img src="{{asset('posts/' ~ post.picture )}}" alt="Article {{post.id}} " class="img">
+    <img src="{{asset('build/images/posts/' ~ post.picture )}}" alt="Article {{post.id}} " class="img">
 </div>
 
     <div class="single-blog">
