@@ -77,6 +77,12 @@ class Post
     {
         $this->comments = new ArrayCollection();
         $this->category = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function __toString()
+    {
+        return $this->id;
     }
 
     public function getId(): ?int

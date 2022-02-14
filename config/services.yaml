@@ -26,3 +26,10 @@ services:
         class: Twig_Extensions_Extension_Intl
         tags:
             - { name: twig.extension }
+
+
+    App\Normalizer\EntityNormalizer:
+        public: false
+        autowire: true
+        autoconfigure: true
+        tags: [serializer.normalizer]

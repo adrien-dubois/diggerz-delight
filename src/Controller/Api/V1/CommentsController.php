@@ -2,18 +2,32 @@
 
 namespace App\Controller\Api\V1;
 
+use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/api/v1/comments", name="api_v1_comments_", requirements={"id" = "\d+"})
  */
 class CommentsController extends AbstractController
 {
+
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
 
     /**
      * Get all the comments ofone particular Post, with pagination (5 comments per page), most recent first
@@ -86,5 +100,53 @@ class CommentsController extends AbstractController
             'groups' => 'comment'
         ]);
         
+    }
+
+    /**
+     * Post a new comment
+     * 
+     * @Route("/", name="add", methods={"POST"})
+     *
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param ValidatorInterface $validator
+     * @param EntityManagerInterface $em
+     * @return void
+     */
+    public function add(
+        Request $request,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator,
+        EntityManagerInterface $em
+    )
+    {
+        // We take back the Json sent
+        $jsonData = $request->getContent();
+
+        // We transform the json in object
+        // First argument : datas to deserialize
+        // Second : The type of object we want
+        // Last : Content type
+
+        /** @var Comment @comment */
+        $comment = $serializer->deserialize($jsonData, Comment::class, 'json',[AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER]);
+
+        // We validate the datas stucked in $comment on criterias of annotations Entity @assert
+        $errors = $validator->validate($comment);
+
+        // If the errors array is not empty, we return a 400 error code for Bad Request
+        if(count($errors) > 0){
+            return $this->json($errors, 400);
+        }
+
+        $user = $this->security->getUser();
+        $comment -> setUser($user);
+
+        $em->persist($comment);
+        $em->flush();
+
+        return $this->json($comment, 201,[], [
+            'groups' => 'comment'
+        ]);
     }
 }
