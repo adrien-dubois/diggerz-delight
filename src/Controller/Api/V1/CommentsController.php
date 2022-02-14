@@ -14,29 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CommentsController extends AbstractController
 {
+
     /**
-     * Get the comments of an articleby its ID
+     * Get all the comments ofone particular Post, with pagination (5 comments per page), most recent first
      * 
-     * @Route("/poster={id}", name="orderby_articles", methods={"GET"})
-     *
-     * @return Response
-     */
-    public function commentsPost(
-        int $id,
-        CommentRepository $commentRepository,
-        PostRepository $postRepository
-    )
-    {
-        $post = $postRepository->find($id);
-
-        $comments = $commentRepository->findBy(['post'=>$post]);
-
-        return $this->json($comments, 200, [], [
-            'groups' => 'comment'
-        ]);
-    }
-
-    /**
      * @Route("/post={id}&page={page}", name="comment_bypage", methods={"GET"}, requirements={"page"="\d+"})
      *
      * @return void
@@ -47,23 +28,35 @@ class CommentsController extends AbstractController
         CommentRepository $commentRepository
     )
     {
+        // build the query for the doctrine paginator
         $query = $commentRepository->createQueryBuilder('c')
                                    ->join('c.post', 'post')
                                    ->where('post.id LIKE :id')
                                    ->setParameter(':id', "%$id%")
+                                   ->orderBy('c.createdAt', 'DESC')
                                    ->getQuery();
-        $pageSize = '5';
-        $paginator = new Paginator($query);
-        $totalItems = count($paginator);
-        $pageCount = ceil($totalItems / $pageSize);
 
+        // Set the number of comments per page
+        $pageSize = '5';
+
+        // load doctrine Paginator
+        $paginator = new Paginator($query);
+
+        // Get total comments
+        $totalComments = count($paginator);
+
+        // Same for the pages
+        $pageCount = ceil($totalComments / $pageSize);
+
+        // now get one page's items
         $paginator
             ->getQuery()
             ->setFirstResult($pageSize * ($page-1))
             ->setMaxResults($pageSize);
 
-            $data['data'] = array (
-                'Nb total de comments' => $totalItems,
+            // Create an array to export pagination information into JSon
+            $data['pagination'] = array (
+                'Nb total de comments' => $totalComments,
                 'Nb de pages' => $pageCount
             );
         
@@ -71,5 +64,27 @@ class CommentsController extends AbstractController
             'groups' => 'comment'
         ]);
 
+    }
+
+    /**
+     * Get a single comment by its ID
+     * 
+     * @Route("/{id}", name="single", methods={"GET"})
+     *
+     * @param integer $id
+     * @param CommentRepository $repository
+     * @return void
+     */
+    public function getSingleComment(
+        int $id,
+        CommentRepository $repository
+    )
+    {
+        $comment = $repository->find($id);
+
+        return $this->json($comment,200, [], [
+            'groups' => 'comment'
+        ]);
+        
     }
 }

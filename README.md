@@ -25,6 +25,7 @@ The README will be update with project as things progress.
 - Font Awesome : `6.0`
 - AOS : `3.0.0-beta 6`
 - Owl Carousel : `2.3.4`
+- Nelmio Cors Bundle: `2.2`
   
 #### **_To display the date in french_**
 - Twig extra bundle: `3.0`
