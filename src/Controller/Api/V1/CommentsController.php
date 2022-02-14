@@ -156,6 +156,7 @@ class CommentsController extends AbstractController
      * Method to edit a comment by PUT and PATCH
      * 
      * @Route("/{id}", name="edit", methods={"PUT", "PATCH"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * @return JsonResponse
      */
@@ -173,8 +174,9 @@ class CommentsController extends AbstractController
 
         if(!$comment){
             return $this->json([
-                'errors' => ['message' => 'Ce commentaire n\'existe pas'], 404
-            ]);
+                'message' => 'Ce commentaire n\'existe pas'
+            ], 404
+            );
         }
 
         $serializer->deserialize($jsonData, Comment::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE=>$comment]);
@@ -184,5 +186,34 @@ class CommentsController extends AbstractController
         return $this->json(["message" => "Le commentaire a bien été modifié"], 200, [], [
             "groups" => "comment"
         ]);
+    }
+
+
+    
+    /**
+     * Method to delete a comment with its ID
+     * 
+     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     *
+     * @param Comment $comment
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    public function delete(Comment $comment, EntityManagerInterface $em)
+    {
+        $this->denyAccessUnlessGranted('delete', $comment, 'Vous n\'avez pas écrit ce commentaire');
+
+        if(!$comment){
+            return $this->json([
+                'error' => 'Ce commentaire n\'existe pas!'
+            ],404
+            );
+        }
+
+        $em -> remove($comment);
+        $em -> flush();
+
+        return $this->json(['ok' => "Le commentaire a bien été supprimé"], 200);
     }
 }
