@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/api/v1/comments", name="api_v1_comments_", requirements={"id" = "\d+"})
@@ -106,6 +107,7 @@ class CommentsController extends AbstractController
      * Post a new comment
      * 
      * @Route("/", name="add", methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * @param Request $request
      * @param SerializerInterface $serializer
@@ -147,6 +149,40 @@ class CommentsController extends AbstractController
 
         return $this->json($comment, 201,[], [
             'groups' => 'comment'
+        ]);
+    }
+
+    /**
+     * Method to edit a comment by PUT and PATCH
+     * 
+     * @Route("/{id}", name="edit", methods={"PUT", "PATCH"})
+     *
+     * @return JsonResponse
+     */
+    public function edit(
+        Comment $comment,
+        Request $request,
+        SerializerInterface $serializer,
+        EntityManagerInterface $em
+    )
+    {
+
+        $this->denyAccessUnlessGranted('edit', $comment, 'Vous n\'êtes pas l\'auteur de ce commentaire !');
+
+        $jsonData = $request->getContent();
+
+        if(!$comment){
+            return $this->json([
+                'errors' => ['message' => 'Ce commentaire n\'existe pas'], 404
+            ]);
+        }
+
+        $serializer->deserialize($jsonData, Comment::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE=>$comment]);
+
+        $em->flush();
+
+        return $this->json(["message" => "Le commentaire a bien été modifié"], 200, [], [
+            "groups" => "comment"
         ]);
     }
 }
