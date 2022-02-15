@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"comment"})
+     * @Groups({"comment", "post"})
      */
     private $id;
 
@@ -44,6 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"post"})
      */
     private $picture;
 
@@ -74,7 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"comment"})
+     * @Groups({"comment", "post"})
      */
     private $fullName;
 

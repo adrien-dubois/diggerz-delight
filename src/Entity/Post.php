@@ -17,34 +17,37 @@ class Post
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"comment"})
+     * @Groups({"comment", "post"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"comment"})
+     * @Groups({"comment", "post"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * 
+     * @Groups({"post"})
      */
     private $text;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"post"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"post"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({"post"})
      */
     private $updatedAt;
 
@@ -55,21 +58,25 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="post")
+     * @Groups({"post"})
      */
     private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"post"})
      */
     private $time;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"post"})
      */
     private $subtitle;
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="posts")
+     * @Groups({"post"})
      */
     private $category;
 

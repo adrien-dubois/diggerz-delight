@@ -97,6 +97,13 @@ class CommentsController extends AbstractController
     {
         $comment = $repository->find($id);
 
+        if(!$comment){
+            return $this->json([
+                'error' => "Le commentaire demandé n'existe pas"
+            ], 404
+            );
+        }
+
         return $this->json($comment,200, [], [
             'groups' => 'comment'
         ]);
