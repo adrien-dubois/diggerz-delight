@@ -17,7 +17,7 @@ class PostController extends AbstractController
     /**
      * Read a single post by its ID
      * 
-     * @Route("/{id}", name="readSingle", methods={"GET"})
+     * @Route("={id}", name="readSingle", methods={"GET"})
      *
      * @param PostRepository $postRepository
      * @param integer $id

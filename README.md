@@ -29,6 +29,13 @@ The README will be update with project as things progress.
 - Lexik JWT Authentication: `2.14` *generate keys with `php bin/console lexik:jwt:generate-keypair` Your keys will land in config/jwt/private.pem and config/jwt/public.pem*
  *Configure the SSL keys path and passphrase in your .env -> move it to your .env.local to gitignore*
  *And add token_ttl in `config/packages/lexik_jwt_authentication.yaml`*
+
+
+### `API Endpoints`
+
+Check out the page
+
+[Endpoints API](endpoints.md)
   
   
 #### **_To display the date in french_**
