@@ -30,6 +30,24 @@ class CommentsController extends AbstractController
         $this->security = $security;
     }
 
+    
+    /**
+     * Get all the comments without any classment
+     * 
+     * @Route("/", name="readAll", methods={"GET"})
+     *
+     * @param CommentRepository $repository
+     * @return JsonResponse
+     */
+    public function read(CommentRepository $repository)
+    {
+        $comments = $repository->findAll();
+
+        return $this->json($comments, 200, [], [
+            'groups' => 'comment'
+        ]);
+    }
+
     /**
      * Get all the comments ofone particular Post, with pagination (5 comments per page), most recent first
      * 

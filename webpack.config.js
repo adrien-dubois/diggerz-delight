@@ -51,6 +51,8 @@ Encore
 
     .enablePostCssLoader()
 
+    .enableReactPreset()
+
     .configureBabel((config) => {
         config.plugins.push('@babel/plugin-proposal-class-properties');
     })

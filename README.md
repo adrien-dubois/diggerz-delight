@@ -24,6 +24,9 @@ The README will be update with project as things progress.
 - Jquery : `3.6.0`
 - Font Awesome : `6.0`
 - AOS : `3.0.0-beta 6`
+- React : `17.0.2`
+- React Dom : `17.0.2`
+- @Babel Preset-React: `7.16.7`
 - Owl Carousel : `2.3.4`
 - Nelmio Cors Bundle: `2.2`
 - Lexik JWT Authentication: `2.14` *generate keys with `php bin/console lexik:jwt:generate-keypair` Your keys will land in config/jwt/private.pem and config/jwt/public.pem*

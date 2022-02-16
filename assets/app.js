@@ -16,6 +16,8 @@ import '@fortawesome/fontawesome-free/js/solid';
 import '@fortawesome/fontawesome-free/js/regular';
 import '@fortawesome/fontawesome-free/js/brands';
 
+import './comments/Comment.jsx'
+
 // For JQuery
 import $ from 'jquery';
 
