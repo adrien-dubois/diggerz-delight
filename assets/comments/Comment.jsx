@@ -5,7 +5,7 @@ import { Icon } from '../components/Icon';
 
 function Comments() {
 
-    const {items: comments, load: load, loading: loading, count} = usePaginatedFetch('comments/post=1&page=1')
+    const {items: comments, load: load, loading: loading, count, hasMore} = usePaginatedFetch('comments/post=1&page=1')
 
     useEffect(() => {
         load()
@@ -16,6 +16,7 @@ function Comments() {
         {JSON.stringify(comments)}
         <Title count={count} />
         <button onClick={load}>Charger les comentaires</button>
+        {hasMore && <button className='bouton'>Plus de commentaires</button>}
     </div>
 }
 

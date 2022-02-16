@@ -88,7 +88,7 @@ class CommentsController extends AbstractController
             ->setFirstResult($pageSize * ($page-1))
             ->setMaxResults($pageSize);
         
-        /*----- CALCULATE PAGES ------*/
+        /*----- CALCULATE PAGINATION LINKS ------*/
 
 
         $currentPage = $request->get('page');
@@ -101,13 +101,13 @@ class CommentsController extends AbstractController
             // Create an array to export pagination information into JSon
             $items = ['totalItems' => $totalComments];
 
-            $pages = ['Nb de pages' => $pageCount];
+            $pages = ['NbPages' => $pageCount];
 
             $pagination = [
-                'Page en cours' => 'http://localhost:8080/api/v1/comments/post=1&page=' . $currentPage,
-                'Dernière page' => $url,
-                'Page précédente' => ($currentPage > 1 ? 'http://localhost:8080/api/v1/comments/post=1&page=' . ($currentPage - 1) : ''),
-                'Page suivante' => ($currentPage < $pageCount ? 'http://localhost:8080/api/v1/comments/post=1&page=' . ($currentPage + 1) : '')
+                'current' => 'http://localhost:8080/api/v1/comments/post=1&page=' . $currentPage,
+                'last' => $url,
+                'previous' => ($currentPage > 1 ? 'http://localhost:8080/api/v1/comments/post=1&page=' . ($currentPage - 1) : ''),
+                'next' => ($currentPage < $pageCount ? 'http://localhost:8080/api/v1/comments/post=1&page=' . ($currentPage + 1) : '')
             ];
 
         

@@ -5,8 +5,9 @@ export function usePaginatedFetch (url) {
 
     const [loading, setLoading] = useState(false);
     const [items, setItems] = useState([]);
-    const [count, setCount] = useState(0)
-    const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDUwMDA5MDksImV4cCI6MTY0NTA0NDEwOSwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.RFV-D71LZZc7-3Yz6853SydK8wv2Rg75xnqKYBnlGzEy8MBJFbtRD1uXZKe8N-YyrJCQJ4cr9RBvas5M056NoxxsPSOeOElsk1BS3x7KROCpnNhWMebCKTAG-hzqv_jCfk7yGPiy9hnbM42Dw4S4cX7jN9FhRzbTTiFq6QH7CXnpr2JRgRqHTBHyAnsBkSJwJTkg0afxv2dE7no41miP08_OvUuFwi6eHMs4F0bmtQANDcs-o4Zco4lX8btmyF0COoULAU2fSAZ_T_f_KInDF1pVe7OFif7_m2H8lfCY9EHK3MJZtHKejgCrWoeXPymItLZc9FEAOc3oYU86BWeRew';
+    const [count, setCount] = useState(0);
+    const [next, setNext] = useState(null);
+    const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDUwNDQ5ODAsImV4cCI6MTY0NTA4ODE4MCwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.TCOEtt0jwai2hYm5GoiGaXb3Vadz1rIRPEKyKn54LjlhvC6bg140sdd3U-Ow9qmAraBBi3ki8MiELjW2pr8p-VzMKnzUXhgyYmi-Z2F2rOzHk8l_dbZIFR3e_oml6E-ewMilKz2fELZ6ri-rQFWIvV_e4MPss1XWq9Uwm8E4Ws9yZTYJinIh1tLnPJFdEEFi3b6WiuCZZLcYYSs5irONzxYlUgonILrJfCYggpOarYSLDkH0Yx8pjqbzTsdQfaM29r1ks6g6OngdUQrA0UcqssUTyIpPFLr7KX2IPKvppiXTeXkbxy5kGfleygupBtfrMxUTpkdDZabAS-5EntLvZA';
     const apiURL = 'http://localhost:8080/api/v1/';
 
     const authAxios = axios.create({
@@ -24,6 +25,12 @@ export function usePaginatedFetch (url) {
             const response = await authAxios.get(url)
             setItems(response.data)
             setCount(response.data[0]['totalItems'])
+            if (response.data[2] && response.data[2]['next']){
+                setNext(response.data[2]['next'])
+            } else {
+                setNext(null)
+            }
+            console.log(response.data);
         } catch(err){
             console.log(err.message);
         }
@@ -34,7 +41,8 @@ export function usePaginatedFetch (url) {
         count,
         items,
         load,
-        loading
+        loading,
+        hasMore: next !== null
     }
     
 }
