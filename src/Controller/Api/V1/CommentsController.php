@@ -58,7 +58,8 @@ class CommentsController extends AbstractController
     public function getCommentsByPage(
         int $id, 
         int $page, 
-        CommentRepository $commentRepository
+        CommentRepository $commentRepository,
+        Request $request
     )
     {
         // build the query for the doctrine paginator
@@ -70,7 +71,7 @@ class CommentsController extends AbstractController
                                    ->getQuery();
 
         // Set the number of comments per page
-        $pageSize = '5';
+        $pageSize = '2';
 
         // load doctrine Paginator
         $paginator = new Paginator($query);
@@ -86,14 +87,31 @@ class CommentsController extends AbstractController
             ->getQuery()
             ->setFirstResult($pageSize * ($page-1))
             ->setMaxResults($pageSize);
+        
+        /*----- CALCULATE PAGES ------*/
+
+
+        $currentPage = $request->get('page');
+
+        for ($page; $page <= $pageCount ; $page++) { 
+            
+            $url = 'http://localhost:8080/api/v1/comments/post=1&page=' . $page;
+        }
 
             // Create an array to export pagination information into JSon
-            $data['pagination'] = array (
-                'Nb total de comments' => $totalComments,
-                'Nb de pages' => $pageCount
-            );
+            $items = ['totalItems' => $totalComments];
+
+            $pages = ['Nb de pages' => $pageCount];
+
+            $pagination = [
+                'Page en cours' => 'http://localhost:8080/api/v1/comments/post=1&page=' . $currentPage,
+                'Dernière page' => $url,
+                'Page précédente' => ($currentPage > 1 ? 'http://localhost:8080/api/v1/comments/post=1&page=' . ($currentPage - 1) : ''),
+                'Page suivante' => ($currentPage < $pageCount ? 'http://localhost:8080/api/v1/comments/post=1&page=' . ($currentPage + 1) : '')
+            ];
+
         
-        return $this->json([$paginator, $data], 200, [], [
+        return $this->json([$items, $pages, $pagination, $paginator], 200, [], [
             'groups' => 'comment'
         ]);
 
