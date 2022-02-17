@@ -7,7 +7,7 @@ export function usePaginatedFetch (url) {
     const [items, setItems] = useState([]);
     const [count, setCount] = useState(0);
     const [next, setNext] = useState(null);
-    const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDUwODg2OTIsImV4cCI6MTY0NTEzMTg5Miwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.Ef4dDHKHAvIcD5LUmStXYx_3SVhXiVCBamXkkfoPmazYUvBiSCKxXLg2cZMuRpMXjsEdhWC-NRYCdasKBggm9RUJIrGhYRmfaW19DRBxGg-4U1GzYxoUgzz6UwfFHkxLtREEgcWlAGPJwEIgLofAgaawA_envzwT_xu50R_QplxoY1v4Gg5nSPB_2g-7uWFRIeuTu84OuM2UkQRyjk7WS3MnUsIUVZL6gRFvFNsL2R82YXEg3-M8MfyjIERBniYrbbVW0JtpCrzpjq6s3ote-SbzThLdgf0G_KK6URuBDgCbob2gwiJHU0pRzcfzCKhws4wRaao6hNk6-kLp9ubT0g';
+    const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDUxMzUzNzUsImV4cCI6MTY0NTE3ODU3NSwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.h0tRsk-tCCY0weuG7h2atNHfWGZ9aQDgGu8uE6E4NKzIrvIg1s-NAvEhVx4IVR4issRZhU1wxOb3JRzgTIvLoMNPHUWKeBOLiMG_y7W-DIdWML6fbQwmqz6o5NmruRrsBMdvJAgWSC5sejhyzMopkMNRFYYo7cBdiMEU6dJwZqd7miW8JewEq7M-GP1QOmUTLQHd0EyxQ4hf881hKsU2IEHS0yVM1fCc3i60wJ-V0Wqo1GJBeVHzMclOWmmrk15elYHXLztuh0a1N64nODGQHV7mDx5wVu4i1hpxPIEGBDopM_qahDYzQ1VMsn9nzmt06KwcRhEbbKVs9iJU4NtTbw';
     const apiURL = 'http://localhost:8080/api/v1/';
 
     const authAxios = axios.create({

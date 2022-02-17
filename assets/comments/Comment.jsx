@@ -1,4 +1,4 @@
-import { render } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import React, { useEffect } from 'react';
 import { usePaginatedFetch } from './hooks';
 import { Icon } from '../components/Icon';
@@ -9,9 +9,8 @@ const dateFormat = {
     timeStyle: 'short'
 }
 
-function Comments() {
-
-    const {items: comments, load: load, loading: loading, count, hasMore} = usePaginatedFetch('comments/post=1&page=1')
+function Comments({post, user}) {
+    const {items: comments, load, loading, count, hasMore} = usePaginatedFetch('comments/post=' + post + '&page=1')
 
     useEffect(() => {
         load()
@@ -19,6 +18,7 @@ function Comments() {
 
     return <div>
         <Title count={count} />
+        {user && <CommentForm post={post}/>}
         {comments.map(comment => <Comment key={comment.id} comment={comment}/>)}
         {hasMore && <button disabled={loading} className='bouton' onClick={load} >Plus de commentaires</button>}
     </div>
@@ -41,6 +41,20 @@ const Comment = React.memo(({comment}) => {
      
 })
 
+function CommentForm({post}){
+    return <div className="formComment">
+        <form>
+            <fieldset>
+                <legend><Icon icon="comment"/> Laisser un commentaire</legend>
+                <div className="form-group">
+                    <textarea name="" id="" cols="30" rows="10" className='form-control' ></textarea>
+                </div>
+            </fieldset>
+        </form>
+
+    </div> 
+}
+
 function Title({count}) {
     return <h3 className='comTitle'>
         <Icon icon="comments"/>
@@ -52,7 +66,14 @@ function Title({count}) {
 class CommentsElement extends HTMLElement {
     
     connectedCallback () {
-        render(<Comments/>, this)
+        const post = parseInt(this.dataset.post, 10)
+        const user = parseInt(this.dataset.user, 10) || null
+        
+        render(<Comments post={post} user={user}/>, this)
+    }
+
+    disconnectedCallback() {
+        unmountComponentAtNode(this)
     }
 
 }

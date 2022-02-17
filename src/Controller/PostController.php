@@ -18,7 +18,7 @@ class PostController extends AbstractController
     /**
      * Method displaying a single article by its ID
      * 
-     * @Route("/{id}", name="single", requirements = {"id" = "\d+"})
+     * @Route("={id}", name="single", requirements = {"id" = "\d+"})
      */
     public function single(Post $post): Response
     {
