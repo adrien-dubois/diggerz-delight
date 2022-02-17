@@ -9,7 +9,7 @@
 <section class="single-article">
 
 <div class="banner">
-    <img src="{{asset('build/images/posts/' ~ post.picture )}}" alt="Article {{post.id}} " class="img">
+    <img src="{{asset('build/images/posts/' ~ post.picture )}}" alt="Article {{post.id}} " class="img responsive">
 </div>
 
     <div class="single-blog">
@@ -38,7 +38,9 @@
 
     </div>
 
-    <post-comments data-post="{{ post.id }}" data-user="{{app.user ? app.user.id : 0 }}"></post-comments>
+    <div class="containers">
+        <post-comments data-post="{{ post.id }}" data-user="{{app.user ? app.user.id : 0 }}"></post-comments>
+    </div>
 
 </section>
 

@@ -90,10 +90,11 @@ button.btn{
 
 button.bouton{
     border: none;
-    border-radius: 2rem;
+    border-radius: 4px;
     padding: .5rem 1rem;
     font-family: var(--livvic-font);
-    font-size: .7rem;
+    font-size: .7.5rem;
+    font-weight: 600;
     cursor: pointer;
     background: var(--stick-gradient);
 }
@@ -834,6 +835,12 @@ footer.footer .move-up span:hover{
     padding: 2rem 0;
 }
 
+.responsive{
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+}
+
 .banner .img{
     display: flex;
     justify-content: center;
@@ -875,4 +882,50 @@ footer.footer .move-up span:hover{
     width: 80%;
     font-family: var(--lexend-font);
     color: var(--light-text);
+}
+
+.comTitle{
+    color: var(--gray-color);
+}
+
+.containers{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+    padding: 15px;
+    /* border: 1px solid black; */
+    border-radius: 4px;
+    font-family: var(--lexend-font);
+    font-size: .9rem;
+    background-color: #EEEEEE;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 20px;
+}
+
+.post-comment{
+    display: grid;
+    justify-content: space-between;
+}
+
+.column-9 p{
+    font-style: italic;
+}
+
+@media (min-width: 992px) {
+    .containers {
+        width: 970px;
+     }
+}
+
+@media (min-width: 576px) {
+    .column-3 {
+        grid-column: span 3;
+    }
+    .column-9{
+        grid-column: span 9;
+    }
 }
