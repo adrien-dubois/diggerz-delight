@@ -1,7 +1,8 @@
 import { render, unmountComponentAtNode } from 'react-dom';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { usePaginatedFetch } from './hooks';
 import { Icon } from '../components/Icon';
+import { Field } from '../components/Form';
 
 // Display published date with month and hours with no secs 
 const dateFormat = {
@@ -35,25 +36,39 @@ const Comment = React.memo(({comment}) => {
                 <strong>{date.toLocaleString(undefined, dateFormat)}</strong>
             </h4>
             <div className="column-9">
-                <p>{comment.text}</p>
+                <p><strong>{comment.title}</strong><br /> {comment.text}</p>
             </div>
         </div>
      
 })
 
-function CommentForm({post}){
+const CommentForm = React.memo(({post}) => {
+
+    const ref = useRef(null)
+
     return <div className="formComment">
         <form>
+            
             <fieldset>
                 <legend><Icon icon="comment"/> Laisser un commentaire</legend>
+                <Field 
+                    name="content" 
+                    help="Les commentaires non conformes à notre charte, seront modérés." 
+                    ref={ref} 
+                    error="Votre commentaire est trop court" 
+                >
+                    Votre commentaire
+                </Field>
                 <div className="form-group">
-                    <textarea name="" id="" cols="30" rows="10" className='form-control' ></textarea>
+                    <button className="bouton">
+                        <Icon icon="paper-plane"/> Envoyer
+                    </button>
                 </div>
             </fieldset>
         </form>
 
     </div> 
-}
+})
 
 function Title({count}) {
     return <h3 className='comTitle'>

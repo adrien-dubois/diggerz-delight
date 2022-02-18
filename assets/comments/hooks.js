@@ -1,43 +1,66 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
 
+
+async function jsonFetch ( url, method = 'GET', data = null ) {
+
+    const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDUxNzk0NDcsImV4cCI6MTY0NTIyMjY0Nywicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.PFjQMJFSijR86JeBhx2ETmo3-IJ8Hg72NnfSDsTbqj3uFV0tVW1z0xzN_Z_dZKtn4dTCVPSn4S-3jCwL2YZuBPcVZmKsKb7KzPjzKi5KTwAZto4xPdJ-L_eyBRQHFT-NZuS5nIFEa3PFqdhbwwzIHMe9t1fhMwUJrHHyi-VDWYPQiOLTlH6Az2cA2sc1nvM2ImeZ59UO92qRTrx6jmr6OcJh1aFjQ5R8bISA7nqB4KTCEIxoV0r_vRChgukX-LDgEwQI2MIA14shKj9l5mWPtlnD7e4ix1sz3Y4xxxAXMy5g7KA1kfbYwbc7KPeVJ5aknLQ_tmiQbZhbWdXXBSYviA';
+    const apiURL = 'http://localhost:8080/api/v1/';
+
+
+    const authAxios = axios.create({
+        baseURL: apiURL,
+        method: method,
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept : 'application/json',
+            'Content-Type' : 'application/json' 
+        }
+    })
+
+    if (data) {
+        authAxios.body = JSON.stringify(data)
+    }
+
+    const response = await authAxios.get(url)
+    const responseData = response.data
+    if (response.status === 204 ) {
+        return null
+    }
+    if (response.status === 200){
+        console.log('test');
+        return responseData
+    } else {
+        throw responseData
+    }
+
+}
+
 export function usePaginatedFetch (url) {
 
     const [loading, setLoading] = useState(false);
     const [items, setItems] = useState([]);
     const [count, setCount] = useState(0);
     const [next, setNext] = useState(null);
-    const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDUxMzUzNzUsImV4cCI6MTY0NTE3ODU3NSwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.h0tRsk-tCCY0weuG7h2atNHfWGZ9aQDgGu8uE6E4NKzIrvIg1s-NAvEhVx4IVR4issRZhU1wxOb3JRzgTIvLoMNPHUWKeBOLiMG_y7W-DIdWML6fbQwmqz6o5NmruRrsBMdvJAgWSC5sejhyzMopkMNRFYYo7cBdiMEU6dJwZqd7miW8JewEq7M-GP1QOmUTLQHd0EyxQ4hf881hKsU2IEHS0yVM1fCc3i60wJ-V0Wqo1GJBeVHzMclOWmmrk15elYHXLztuh0a1N64nODGQHV7mDx5wVu4i1hpxPIEGBDopM_qahDYzQ1VMsn9nzmt06KwcRhEbbKVs9iJU4NtTbw';
-    const apiURL = 'http://localhost:8080/api/v1/';
 
-    const authAxios = axios.create({
-        baseURL: apiURL,
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Accept : 'application/json'
-        }
-    })
-
-const load = useCallback(async () => {
+    const load = useCallback(async () => {
         setLoading(true)
         try{
 
-            const response = await authAxios.get(next || url)
+            const response = await jsonFetch(next || url)
 
             // console.log(response.data[3]);
-            setItems(items => [...items, ...response.data[3]])
+            setItems(items => [...items, ...response[3]])
+            setCount(response[0]['totalItems'])
 
-
-            setCount(response.data[0]['totalItems'])
-
-            if (response.data[2] && response.data[2]['next']){
-                setNext(response.data[2]['next'])
+            if (response[2] && response[2]['next']){
+                setNext(response[2]['next'])
             } else {
                 setNext(null)
             }
            
         } catch(err){
-            console.log(err.message);
+            console.error(err.message);
         }
 
         setLoading(false)
@@ -50,4 +73,12 @@ const load = useCallback(async () => {
         hasMore: next !== null
     }
     
+}
+
+export function useFetch (url, method='POST'){
+    const [errors, setErrors] = useState({})
+    const [loading, setLoading] = useState(false)
+    const load = useCallback((data) => {
+
+    }, [url, method])
 }

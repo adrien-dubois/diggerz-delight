@@ -26,6 +26,7 @@ html, body{
     --midnight-color: #104f55;
     /* GRADIENT COLORS */
     --stick-gradient: linear-gradient(to right, #a8caba 0%, #5d4157 100%);
+    --stickInversed-gradient: linear-gradient(to right,#5d4157  0%, #a8caba 100%);
     --stick2-gradient: linear-gradient(to right, #768f83 0%, #473243 100%);
 }
 
@@ -86,17 +87,6 @@ button.btn{
     font-size: 1rem;
     font-family: var(--livvic-font);
     cursor: pointer;
-}
-
-button.bouton{
-    border: none;
-    border-radius: 4px;
-    padding: .5rem 1rem;
-    font-family: var(--livvic-font);
-    font-size: .7.5rem;
-    font-weight: 600;
-    cursor: pointer;
-    background: var(--stick-gradient);
 }
 
 ::-webkit-scrollbar-track
@@ -884,6 +874,25 @@ footer.footer .move-up span:hover{
     color: var(--light-text);
 }
 
+/*-------------------COMMENT SECTION-----------------------*/
+
+button.bouton{
+    border: none;
+    border-radius: 4px;
+    padding: .5rem 1rem;
+    font-family: var(--livvic-font);
+    font-size: .7.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--stick-gradient);
+    transition: all .4s ease-in-out;
+}
+
+button.bouton:hover{
+    background: var(--stickInversed-gradient);
+    color: white;
+}
+
 .comTitle{
     color: var(--gray-color);
 }
@@ -904,15 +913,40 @@ footer.footer .move-up span:hover{
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-gap: 20px;
+    /* border: 1px solid black; */
 }
 
 .post-comment{
     display: grid;
-    justify-content: space-between;
+    justify-content: space-around;
+}
+
+.formComment fieldset{
+    width: 75%;
+    color: var(--gray-color);
+}
+
+.formComment fieldset legend.has-error{
+    color: red;
+}
+
+.form-group{
+    margin: .8rem;
+}
+
+.form-group textarea{
+    justify-content: center;
+    width: 100%;
+    resize: none;
+}
+
+.form-group small{
+    font-style: italic;
 }
 
 .column-9 p{
     font-style: italic;
+    width: 90%;
 }
 
 @media (min-width: 992px) {
