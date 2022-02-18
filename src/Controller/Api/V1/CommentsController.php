@@ -61,7 +61,7 @@ class CommentsController extends AbstractController
         CommentRepository $commentRepository,
         Request $request
     )
-    {
+{
         // build the query for the doctrine paginator
         $query = $commentRepository->createQueryBuilder('c')
                                    ->join('c.post', 'post')
@@ -174,7 +174,7 @@ class CommentsController extends AbstractController
         // Last : Content type
 
         /** @var Comment @comment */
-        $comment = $serializer->deserialize($jsonData, Comment::class, 'json',[AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER]);
+        $comment = $serializer->deserialize($jsonData, Comment::class, 'json');
 
         // We validate the datas stucked in $comment on criterias of annotations Entity @assert
         $errors = $validator->validate($comment);

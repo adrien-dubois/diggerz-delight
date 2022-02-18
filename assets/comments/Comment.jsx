@@ -1,6 +1,6 @@
 import { render, unmountComponentAtNode } from 'react-dom';
-import React, { useEffect, useRef, useState } from 'react';
-import { usePaginatedFetch } from './hooks';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useFetch, usePaginatedFetch } from './hooks';
 import { Icon } from '../components/Icon';
 import { Field } from '../components/Form';
 
@@ -45,22 +45,30 @@ const Comment = React.memo(({comment}) => {
 const CommentForm = React.memo(({post}) => {
 
     const ref = useRef(null)
+    const {load, loading, errors} = useFetch('comments/')
+    const onSubmit = useCallback(e => {
+        e.preventDefault()
+        load({
+            text: ref.current.value,
+            post: post
+        })
+    }, [load, ref, post])
 
     return <div className="formComment">
-        <form>
+        <form onSubmit={onSubmit}>
             
             <fieldset>
                 <legend><Icon icon="comment"/> Laisser un commentaire</legend>
                 <Field 
-                    name="content" 
+                    name="text" 
                     help="Les commentaires non conformes à notre charte, seront modérés." 
                     ref={ref} 
-                    error="Votre commentaire est trop court" 
+                    error={errors['text']} 
                 >
                     Votre commentaire
                 </Field>
                 <div className="form-group">
-                    <button className="bouton">
+                    <button className="bouton" disabled={loading}>
                         <Icon icon="paper-plane"/> Envoyer
                     </button>
                 </div>

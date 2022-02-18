@@ -23,14 +23,22 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"comment"})
+     * 
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Groups({"comment"})
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 500,
+     *      minMessage = "Votre message doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre message doit faire maximum {{ limit }} caractères"
+     * )
      */
     private $text;
 

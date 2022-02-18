@@ -886,6 +886,7 @@ button.bouton{
     cursor: pointer;
     background: var(--stick-gradient);
     transition: all .4s ease-in-out;
+    margin-top: .2rem;
 }
 
 button.bouton:hover{
@@ -926,13 +927,11 @@ button.bouton:hover{
     color: var(--gray-color);
 }
 
-.formComment fieldset legend.has-error{
-    color: red;
-}
-
 .form-group{
     margin: .8rem;
 }
+
+
 
 .form-group textarea{
     justify-content: center;
@@ -942,6 +941,23 @@ button.bouton:hover{
 
 .form-group small{
     font-style: italic;
+}
+
+/*--------------- HAS ERROR ------------------*/
+
+.form-group.form-group.has-error textarea{
+    outline-color: red;
+    border: 2px solid red;
+    border-radius: 2px;
+    margin-bottom: .5rem;
+}
+
+.form-group.has-error small{
+    color: white;
+    font-style: normal;
+    font-weight: bold;
+    padding: .8rem 59% .8rem .8rem;
+    background-color: red;
 }
 
 .column-9 p{
