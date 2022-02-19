@@ -49,7 +49,11 @@ const Comment = React.memo(({comment, onDelete, canEdit}) => {
     // stock the date in this const
     const date = new Date(comment.createdAt)
 
-    const{} = useFetch()
+    const onDeleteCallback = useCallback(() => {
+        onDelete(comment)
+    }, [comment])
+
+    const{loading: loadingDelete, load: callDelete} = useFetch('comments/' + comment['id'], 'delete', onDeleteCallback)
 
     return <div className="row">
             <h4 className="column-3 post-comment">
@@ -60,7 +64,7 @@ const Comment = React.memo(({comment, onDelete, canEdit}) => {
             <div className="column-9">
                 <p><strong>{comment.title}</strong><br /> {comment.text}</p>
                 {canEdit && <p>
-                    <button className='deleteBtn'>
+                    <button className='deleteBtn' onClick={callDelete.bind(this, null)} disabled={loadingDelete} >
                         <Icon icon="trash"/> Supp.
                     </button>
                 </p>}
@@ -80,7 +84,7 @@ const CommentForm = React.memo(({post, onComment}) => {
         ref.current.value = ''
         title.current.value = ''
     }, [ref, title, onComment])
-    const {load, loading, errors, clearError} = useFetch('comments/', onSuccess)
+    const {load, loading, errors, clearError} = useFetch('comments/', 'post',onSuccess)
     const onSubmit = useCallback(e => {
         e.preventDefault()
         load({

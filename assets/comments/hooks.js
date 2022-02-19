@@ -55,7 +55,7 @@ export function usePaginatedFetch (url) {
     
 }
 
-export function useFetch (url, callback=null){
+export function useFetch (url, method, callback=null){
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false)
     const load = useCallback(async (data = null) => {
@@ -63,15 +63,17 @@ export function useFetch (url, callback=null){
         
         const params = JSON.stringify(data)
         try {
-            const response = await authAxios.post(url, params)
+            const response = await authAxios[method](url, params)
             const responseData = response.data
             
+            setLoading(false)
             if(callback){
                 callback(responseData)
             }
            
             
         } catch (error) {
+            setLoading(false)
             // console.log(error.response.data);
             const err = error.response.data
             setErrors(err.violations.reduce((acc, violations) =>{
@@ -79,7 +81,6 @@ export function useFetch (url, callback=null){
                 return acc
             },{} ))
         }
-        setLoading(false)
     }, [url, callback])
     const clearError = useCallback((name) => {
         if(errors[name]){
