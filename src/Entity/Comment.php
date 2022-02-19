@@ -23,8 +23,15 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"comment"})
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Le titre doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Le titre doit faire maximum {{ limit }} caractères"
+     * )
      * 
      */
     private $title;

@@ -2,7 +2,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useFetch, usePaginatedFetch } from './hooks';
 import { Icon } from '../components/Icon';
-import { Field } from '../components/Form';
+import { Field, Input } from '../components/Form';
 
 // Display published date with month and hours with no secs 
 const dateFormat = {
@@ -45,10 +45,12 @@ const Comment = React.memo(({comment}) => {
 const CommentForm = React.memo(({post}) => {
 
     const ref = useRef(null)
-    const {load, loading, errors} = useFetch('comments/')
+    const title = useRef(null)
+    const {load, loading, errors, clearError} = useFetch('comments/')
     const onSubmit = useCallback(e => {
         e.preventDefault()
         load({
+            title: title.current.value,
             text: ref.current.value,
             post: post
         })
@@ -59,10 +61,20 @@ const CommentForm = React.memo(({post}) => {
             
             <fieldset>
                 <legend><Icon icon="comment"/> Laisser un commentaire</legend>
+                
+                <Input 
+                    name="title" 
+                    ref={title} 
+                    onChange={clearError.bind(this, 'title')}
+                    error={errors['title']}
+                >
+                    Titre
+                </Input>
                 <Field 
                     name="text" 
                     help="Les commentaires non conformes à notre charte, seront modérés." 
                     ref={ref} 
+                    onChange={clearError.bind(this, 'text')}
                     error={errors['text']} 
                 >
                     Votre commentaire

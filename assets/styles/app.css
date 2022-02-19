@@ -931,7 +931,10 @@ button.bouton:hover{
     margin: .8rem;
 }
 
-
+.form-group input{
+    justify-content: center;
+    width: 100%;
+}
 
 .form-group textarea{
     justify-content: center;
@@ -945,11 +948,18 @@ button.bouton:hover{
 
 /*--------------- HAS ERROR ------------------*/
 
-.form-group.form-group.has-error textarea{
+.form-group.has-error textarea{
     outline-color: red;
     border: 2px solid red;
     border-radius: 2px;
     margin-bottom: .5rem;
+}
+
+.form-group.has-error input {
+    outline-color: red;
+    border: 2px solid red;
+    border-radius: 2px;
+    margin-bottom: 1rem;
 }
 
 .form-group.has-error small{
