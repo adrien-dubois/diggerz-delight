@@ -10,8 +10,18 @@ const dateFormat = {
     timeStyle: 'short'
 }
 
+/*----- GET THE COMMENTS WITH THE CURRENT ARTICLE -----*/
 function Comments({post, user}) {
-    const {items: comments, load, loading, count, hasMore} = usePaginatedFetch('comments/post=' + post + '&page=1')
+    const {items: comments, setItems: setComments, load, loading, count, hasMore} = usePaginatedFetch('comments/post=' + post + '&page=1')
+
+    const addComment = useCallback(comment => {
+        setComments(comments => [comment, ...comments])
+    }, [])
+    
+
+    const deleteComment = useCallback(comment => {
+        setComments(comments => comments.filter(c => c !== comment))
+    }, [])
 
     useEffect(() => {
         load()
@@ -19,16 +29,28 @@ function Comments({post, user}) {
 
     return <div>
         <Title count={count} />
-        {user && <CommentForm post={post}/>}
-        {comments.map(comment => <Comment key={comment.id} comment={comment}/>)}
+        {user && <CommentForm post={post} onComment={addComment}/>}
+        {comments.map(comment => 
+            <Comment 
+                key={comment.id} 
+                comment={comment} 
+                canEdit={comment.user.id === user} 
+                onDelete={deleteComment}
+            />
+        )}
         {hasMore && <button disabled={loading} className='bouton' onClick={load} >Plus de commentaires</button>}
     </div>
 }
 
-const Comment = React.memo(({comment}) => {
+
+/*----- READ COMMENTS DATA BLOCK -----*/
+const Comment = React.memo(({comment, onDelete, canEdit}) => {
 
     // stock the date in this const
     const date = new Date(comment.createdAt)
+
+    const{} = useFetch()
+
     return <div className="row">
             <h4 className="column-3 post-comment">
                 <strong>{comment.user.fullName}</strong>
@@ -37,16 +59,28 @@ const Comment = React.memo(({comment}) => {
             </h4>
             <div className="column-9">
                 <p><strong>{comment.title}</strong><br /> {comment.text}</p>
+                {canEdit && <p>
+                    <button className='deleteBtn'>
+                        <Icon icon="trash"/> Supp.
+                    </button>
+                </p>}
             </div>
         </div>
      
 })
 
-const CommentForm = React.memo(({post}) => {
+
+/*----- FORM COMMENT -----*/
+const CommentForm = React.memo(({post, onComment}) => {
 
     const ref = useRef(null)
     const title = useRef(null)
-    const {load, loading, errors, clearError} = useFetch('comments/')
+    const onSuccess = useCallback(comment => {
+        onComment(comment)
+        ref.current.value = ''
+        title.current.value = ''
+    }, [ref, title, onComment])
+    const {load, loading, errors, clearError} = useFetch('comments/', onSuccess)
     const onSubmit = useCallback(e => {
         e.preventDefault()
         load({
@@ -65,6 +99,7 @@ const CommentForm = React.memo(({post}) => {
                 <Input 
                     name="title" 
                     ref={title} 
+                    required
                     onChange={clearError.bind(this, 'title')}
                     error={errors['title']}
                 >
@@ -74,6 +109,7 @@ const CommentForm = React.memo(({post}) => {
                     name="text" 
                     help="Les commentaires non conformes à notre charte, seront modérés." 
                     ref={ref} 
+                    required
                     onChange={clearError.bind(this, 'text')}
                     error={errors['text']} 
                 >
@@ -90,6 +126,8 @@ const CommentForm = React.memo(({post}) => {
     </div> 
 })
 
+
+/*----- GET THE NUMBER OF COMMENTS -----*/
 function Title({count}) {
     return <h3 className='comTitle'>
         <Icon icon="comments"/>
@@ -98,6 +136,7 @@ function Title({count}) {
 }
 
 
+/*----- GET THE ARTICLE ID & THE CURRENT USER ID -----*/
 class CommentsElement extends HTMLElement {
     
     connectedCallback () {

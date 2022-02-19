@@ -47,6 +47,7 @@ export function usePaginatedFetch (url) {
     return {
         count,
         items,
+        setItems,
         load,
         loading,
         hasMore: next !== null
@@ -63,10 +64,10 @@ export function useFetch (url, callback=null){
         const params = JSON.stringify(data)
         try {
             const response = await authAxios.post(url, params)
-            // const responseData = response.data
+            const responseData = response.data
             
             if(callback){
-                callback(response)
+                callback(responseData)
             }
            
             

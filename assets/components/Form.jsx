@@ -7,7 +7,8 @@ export const Field = React.forwardRef(({
     name, 
     children, 
     error, 
-    onChange
+    onChange,
+    required
 }, ref) => {
 
     if (error) {
@@ -28,6 +29,7 @@ export const Field = React.forwardRef(({
             name={name} 
             id={name}
             onChange={onChange} 
+            required={required}
         />
         {help && <small>{help}</small>}
     </div>
@@ -38,7 +40,8 @@ export const Input = React.forwardRef(({
     help,
     children,
     error,
-    onChange
+    onChange,
+    required
 },title) =>{
     if(error) {
         help = error
@@ -57,6 +60,7 @@ export const Input = React.forwardRef(({
             name={name} 
             id={name} 
             onChange={onChange}
+            required={required}
         />
         {help && <small>{help}</small>}
     </div>

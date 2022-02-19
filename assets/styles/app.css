@@ -24,6 +24,7 @@ html, body{
     --light-text: #686666da;
     --bg-color: #0f0f0f;
     --midnight-color: #104f55;
+    --red-pigment: #EA2027;
     /* GRADIENT COLORS */
     --stick-gradient: linear-gradient(to right, #a8caba 0%, #5d4157 100%);
     --stickInversed-gradient: linear-gradient(to right,#5d4157  0%, #a8caba 100%);
@@ -881,7 +882,7 @@ button.bouton{
     border-radius: 4px;
     padding: .5rem 1rem;
     font-family: var(--livvic-font);
-    font-size: .7.5rem;
+    font-size: .8rem;
     font-weight: 600;
     cursor: pointer;
     background: var(--stick-gradient);
@@ -892,6 +893,26 @@ button.bouton{
 button.bouton:hover{
     background: var(--stickInversed-gradient);
     color: white;
+}
+
+button.deleteBtn{
+    border: 1px solid var(--red-pigment);
+    border-radius: 4px;
+    padding: .4rem .5rem ;
+    font-family: var(--livvic-font);
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--red-pigment);
+    color: white;
+    transition: all .4s ease-in-out;
+    float: right;
+}
+
+button.deleteBtn:hover{
+    border: 1px solid var(--red-pigment);
+    background: transparent;
+    color: var(--red-pigment);
 }
 
 .comTitle{
@@ -949,15 +970,15 @@ button.bouton:hover{
 /*--------------- HAS ERROR ------------------*/
 
 .form-group.has-error textarea{
-    outline-color: red;
-    border: 2px solid red;
+    outline-color: var(--red-pigment);
+    border: 2px solid var(--red-pigment);
     border-radius: 2px;
     margin-bottom: .5rem;
 }
 
 .form-group.has-error input {
-    outline-color: red;
-    border: 2px solid red;
+    outline-color: var(--red-pigment);
+    border: 2px solid var(--red-pigment);
     border-radius: 2px;
     margin-bottom: 1rem;
 }
@@ -967,7 +988,7 @@ button.bouton:hover{
     font-style: normal;
     font-weight: bold;
     padding: .8rem 59% .8rem .8rem;
-    background-color: red;
+    background-color: var(--red-pigment);
 }
 
 .column-9 p{
