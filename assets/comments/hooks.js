@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import axios from "axios";
 
 
-const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDUzOTU1NTUsImV4cCI6MTY0NTQzODc1NSwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.I5iNrvfrYrpJL2tBy1xrFFwcyxJ-kfRrx16GtNXoanXgsdw_uKF6q9xXNW4-5bmWCztJzdYe630lW2o3g9-UkRlSLyfgOTOKITgqawR3iEzrurlQxsFPNmMW2FrICw2ttc1117jbofVrB32s6AEyEd2DYTQEAuZlXHiE1xdOKN-MAGmsawJmwXgwkEKsCIpIqqZBLAeW71J0mIl_ubUo-fB0qHZbe654k71vE_NSq8T3CJGJZujF-qFQyAarkw1FRBbm3SI1RWgjFFUA5xiQ5HzCYgQppoQrvrgFLJyom5MKHd1rDPcN2MbxzKmxqSl8LwqnsQhtRxZufcUPcHUwqQ';
+const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDU0NDM0NTksImV4cCI6MTY0NTQ4NjY1OSwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.EL1Tjv03r22cwiBNSirpIkEGle939XI_4noNWdv6idXernaYe-CK80AgQHoPPvBu3PhT37WTDyRSlPlzVNRB6WS3hW9r2-xz2jVCpyBibZDKE2NVe8Dj6q9E4kBkXXutd2GG2r_tTXZO6njvfarUvr-3uQtTKbHFS_NhRus_BrXdZuCDHaQShOl6F4LPRShWd8QBnooNtgU443k4EkpjHHQ3GeJAdzqYZ6ynHDRo_mThYaQk4JQ57ug6ZnXl3K0AfffApPKpXkA4a_TidDAdQwb2TNOyRjA2OcvGnBlKAaia9E5cz1E7swcQCyQbEpX3nqBFCPHX26BzaehE8Lxbzg';
 const apiURL = 'http://localhost:8080/api/v1/';
 
 
@@ -65,10 +65,10 @@ export function useFetch (url, method, callback=null){
         try {
             const response = await authAxios[method](url, params)
             const responseData = response.data
-            
             setLoading(false)
             if(callback){
                 callback(responseData)
+                
             }
            
             
@@ -77,11 +77,13 @@ export function useFetch (url, method, callback=null){
             setLoading(false)
             // console.log(error.response.status);
             // console.log(error.response.headers);
+            
             const err = error.response.data
             setErrors(err.violations.reduce((acc, violations) =>{
                 acc[violations.propertyPath] = violations.title
                 return acc
             },{} ))
+            
         }
     }, [url, callback])
     const clearError = useCallback((name) => {
