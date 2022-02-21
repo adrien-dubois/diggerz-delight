@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import axios from "axios";
 
 
-const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDUzNTE3NDYsImV4cCI6MTY0NTM5NDk0Niwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.jVI3S60QjlJMePCowpY7zTgtt17SJeS2P3LOrcyygW_ZIc6FZcEu9n80vcsd5dl_paDmBCO7A9zWEOnfsDsL1jygc19RK0fHVMfHyXFr1tejmAK0N7RiNJMvGXzuwAd7Oh9wJ8QG8o0VIHlnttJOKw_2RDfHQUzkenGv6AohzcDapV-Q9cOyi7ash39ed3DUnlbvlf0FkbzmDE7IKKlJXYRnxqXqOrG5nYqVlgsG_DZ9otSIIG3flj9FLP1tQuRhWVAFEHAyPpyq0GQLq-MqC8QqEYNako6FKl0gvf3HywXwbQYgCbRJ55oFyXjswmHUxsRx7VVSBV2felh5thIkMQ';
+const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDUzOTU1NTUsImV4cCI6MTY0NTQzODc1NSwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQGRpZ2Vyei1kZWxpZ2h0LmZyIn0.I5iNrvfrYrpJL2tBy1xrFFwcyxJ-kfRrx16GtNXoanXgsdw_uKF6q9xXNW4-5bmWCztJzdYe630lW2o3g9-UkRlSLyfgOTOKITgqawR3iEzrurlQxsFPNmMW2FrICw2ttc1117jbofVrB32s6AEyEd2DYTQEAuZlXHiE1xdOKN-MAGmsawJmwXgwkEKsCIpIqqZBLAeW71J0mIl_ubUo-fB0qHZbe654k71vE_NSq8T3CJGJZujF-qFQyAarkw1FRBbm3SI1RWgjFFUA5xiQ5HzCYgQppoQrvrgFLJyom5MKHd1rDPcN2MbxzKmxqSl8LwqnsQhtRxZufcUPcHUwqQ';
 const apiURL = 'http://localhost:8080/api/v1/';
 
 
@@ -73,8 +73,10 @@ export function useFetch (url, method, callback=null){
            
             
         } catch (error) {
-            setLoading(false)
             // console.log(error.response.data);
+            setLoading(false)
+            // console.log(error.response.status);
+            // console.log(error.response.headers);
             const err = error.response.data
             setErrors(err.violations.reduce((acc, violations) =>{
                 acc[violations.propertyPath] = violations.title

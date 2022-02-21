@@ -50,15 +50,17 @@ function Comments({post, user}) {
         <Title count={count} />
         {/* If user is connect we can display the comment form */}
         {user && <CommentForm post={post} onComment={addComment}/>}
-        {comments.map(comment => 
+        {comments.map(c => 
             <Comment 
-                key={comment.id} 
-                comment={comment} 
-                canEdit={comment.user.id === user} 
+                key={c.id} 
+                comment={c} 
+                canEdit={c.user.id === user} 
                 onDelete={deleteComment}
                 onUpdate={updateComment}
-            />
+                />
         )}
+
+                
         {hasMore && <button disabled={loading} className='bouton' onClick={load} >Plus de commentaires</button>}
     </div>
 }
@@ -75,16 +77,16 @@ const Comment = React.memo(({comment, onDelete, canEdit, onUpdate}) => {
     /*------- EVENTS ------- */
 
     // Method which toggle condition(state), make a set state & if the state is "view", it switches on edit, vice versa
-    const toggleEdit = useCallback(() => {
-        setState(state => state === VIEW ? EDIT : VIEW )
-    }, [])
+    const toggleEdit = useCallback(() => setState(state => state === VIEW ? EDIT : VIEW ), [])
 
     // Callback which get the comment to delete on argument and send it to onDelete method, and the callback depends on the comment
-    const onDeleteCallback = useCallback(() => { onDelete(comment) }, [comment])
+    const onDeleteCallback = useCallback(() => onDelete(comment) , [comment])
 
     // This callback depends on the selected comment, the methods calls, the parent method with the new commment sent by the api, and the new one
-    const onComment = useCallback ((newComment)=> {
+    const onComment = useCallback (newComment => {
         onUpdate(newComment, comment)
+        // When edit is send, no still need edit mode, so toggle it
+        toggleEdit()
     }, [comment])
 
 
@@ -110,7 +112,7 @@ const Comment = React.memo(({comment, onDelete, canEdit, onUpdate}) => {
                 {/* title & comment */}
                 {state === VIEW ?
                     <p><strong>{comment.title}</strong><br /> {comment.text}</p> :
-                    <CommentForm comment={comment} onComment={onComment}/>
+                    <CommentForm comment={comment} onComment={onComment} onCancel={toggleEdit} />
                 }
 
                 {/* if not in edition mode, then display action buttons */}
@@ -132,28 +134,34 @@ const Comment = React.memo(({comment, onDelete, canEdit, onUpdate}) => {
 
 
 /*----- FORM COMMENT -----*/
-const CommentForm = React.memo(({post = null, onComment, comment = null}) => {
+const CommentForm = React.memo(({post, onComment, comment = null, onCancel = null}) => {
 
     /*------ VARIABLES ------*/
     const ref = useRef(null)
     const title = useRef(null)
-    
-    /*------ HOOKS ------*/
-    const {load, loading, errors, clearError} = useFetch('comments/', 'post',onSuccess)
 
-    /*------- METHODS ------*/
+    /*------- METHOD------*/
+
     // If comment is posted, then reset fields value
     const onSuccess = useCallback(comment => {
         onComment(comment)
         ref.current.value = ''
         title.current.value = ''
     }, [ref, title, onComment])
+    
+    /*------ HOOKS ------*/
+    
+    const method = comment ? 'patch' : 'post'
+    const url = comment ? 'comments/' + comment['id'] : 'comments/'
+    const {load, loading, errors, clearError} = useFetch(url, method, onSuccess)
+
+    /*------- METHOD------*/
 
     const onSubmit = useCallback(e => {
         e.preventDefault()
         load({
-            title: title.current.value,
             text: ref.current.value,
+            title: title.current.value,
             post: post
         })
     }, [load, ref, post])
@@ -162,21 +170,26 @@ const CommentForm = React.memo(({post = null, onComment, comment = null}) => {
     /*-------- EFFECTS -------*/
 
     // This useEffect observe the comment
-    // if comment, comment.content & ref are defined so ref value is egal to the comment content
+    // if comment, comment content & ref are defined so ref value is egal to the comment content
     useEffect(() => {
         if(comment && comment.text && ref.current && comment.title && title.current){
             ref.current.value = comment.text
             title.current.value = comment.title
+
+            return () => {
+                ref.current = false
+                title.current = false
+            };
         }
-    }, [comment, ref])
+    }, [comment, ref, title])
 
     /*------ RETURN RENDER -------*/
     return <div className="formComment">
         <form onSubmit={onSubmit}>
 
-            <fieldset>
+             {comment === null && <fieldset>
                 <legend><Icon icon="comment"/> Laisser un commentaire</legend>
-
+            </fieldset>}
                 <Input 
                     name="title" 
                     ref={title} 
@@ -196,12 +209,16 @@ const CommentForm = React.memo(({post = null, onComment, comment = null}) => {
                 >
                     Votre commentaire
                 </Field>
-                <div className="form-group">
+                <div className="form-submit">
                     <button className="bouton" disabled={loading}>
-                        <Icon icon="paper-plane"/> Envoyer
+                        <Icon icon="paper-plane"/> {comment === null ? 'Envoyer' : 'Éditer'}
                     </button>
+                    {onCancel && <button className="btnCancel" onClick={onCancel} >
+                        Annuler
+                    </button> }
                 </div>
-            </fieldset>
+                
+            
         </form>
 
     </div> 
@@ -219,15 +236,33 @@ function Title({count}) {
 
 /*----- GET THE ARTICLE ID & THE CURRENT USER ID -----*/
 class CommentsElement extends HTMLElement {
+
+    constructor () {
+        super()
+        this.observer = null
+    }
     
     connectedCallback () {
         const post = parseInt(this.dataset.post, 10)
         const user = parseInt(this.dataset.user, 10) || null
-        
-        render(<Comments post={post} user={user}/>, this)
+        if(this.observer === null) {
+            this.observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.target === this){
+                        observer.disconnect()
+                        
+                        render(<Comments post={post} user={user}/>, this)
+                    }
+                })
+            })
+        }
+        this.observer.observe(this)
     }
 
     disconnectedCallback() {
+        if (this.observer){
+            this.observer.disconnect()
+        }
         unmountComponentAtNode(this)
     }
 

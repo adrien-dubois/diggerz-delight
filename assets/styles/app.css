@@ -901,6 +901,25 @@ button.bouton:hover{
     color: white;
 }
 
+.btnCancel{
+    border: none;
+    background: var(--lightGray-color);
+    color: black;
+    border-radius: 4px;
+    padding: .5rem 1rem;
+    font-family: var(--livvic-font);
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+    margin-top: .2rem;
+    margin-left: .2rem;
+}
+
+.btnCancel:hover{
+    color: white;
+}
+
 .ctaBtn{
     border-radius: 50%;
     padding: .4rem .5rem ;
@@ -970,20 +989,25 @@ button.bouton:hover{
 .formComment fieldset{
     width: 75%;
     color: var(--gray-color);
+    margin-bottom: -1.5rem;
+    margin-top: 1rem;
+    border: none;
 }
 
 .form-group{
     margin: .8rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group input{
     justify-content: center;
-    width: 100%;
+    width: 90%;
 }
 
 .form-group textarea{
     justify-content: center;
-    width: 100%;
+    width: 90%;
     resize: none;
 }
 
