@@ -719,7 +719,7 @@ footer.footer .move-up span:hover{
     z-index: 1;
     color: #38423D;
     font-size: 65px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .form .signup-form{
@@ -748,6 +748,22 @@ footer.footer .move-up span:hover{
     
 }
 
+.user-input.has-error, .input-form.has-error input {
+    outline-color: var(--red-pigment);
+    border: 2px solid var(--red-pigment);
+    border-radius: 2px;
+    margin-bottom: 1rem;
+}
+
+.input-form.has-error small{
+    color: white;
+    font-style: normal;
+    font-weight: bold;
+    padding: .6rem 50% .6rem .8rem;
+    background-color: var(--red-pigment);
+}
+
+
 .form .user-input:-webkit-autofill,
 .form .user-input:-webkit-autofill:hover, 
 .form .user-input:-webkit-autofill:focus, 
@@ -758,6 +774,7 @@ footer.footer .move-up span:hover{
 
 .form .options-01{
     margin-bottom: 50px;
+    margin-top: .8rem;
 }
 
 .form .options-01 input{

@@ -94,7 +94,7 @@ const Comment = React.memo(({comment, onDelete, canEdit, onUpdate}) => {
     // Variable state which allows me to know the current condition
     const [state, setState] = useState(VIEW)
     // Hook call to delete
-    const{loading: loadingDelete, load: callDelete} = useFetch('comments/' + comment['id'], 'delete', onDeleteCallback)
+    const{loading: loadingDelete, load: callDelete} = useFetch('/v1/comments/' + comment['id'], 'delete', onDeleteCallback)
 
     /*-------- RENDER RETURN --------*/
     return <div className="row">
@@ -152,7 +152,7 @@ const CommentForm = React.memo(({post, onComment, comment = null, onCancel = nul
     /*------ HOOKS ------*/
     
     const method = comment ? 'patch' : 'post'
-    const url = comment ? 'comments/' + comment['id'] : 'comments/'
+    const url = comment ? '/v1/comments/' + comment['id'] : '/v1/comments/'
     const {load, loading, errors, clearError} = useFetch(url, method, onSuccess)
 
     /*------- METHOD------*/

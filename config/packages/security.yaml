@@ -21,26 +21,27 @@ security:
         login:
             pattern: ^/api/login
             stateless: true
-            logout:
-                path: app_logout
             json_login:
-                check_path: api_login
+                provider: app_user_provider
+                check_path: api_login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            logout:
+                path: app_logout
 
         api:
             pattern:   ^/api
             stateless: true
             jwt: ~
 
-        main:
-            lazy: true
-            provider: app_user_provider
-            custom_authenticator: App\Security\LoginFormAuthenticator
-            json_login:
-                check_path: app_login
-            logout:
-                path: app_logout
+        # main:
+        #     lazy: true
+        #     provider: app_user_provider
+        #     custom_authenticator: App\Security\LoginFormAuthenticator
+        #     json_login:
+        #         check_path: api_login_check
+        #     logout:
+        #         path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
 
