@@ -15,9 +15,30 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
+     * @Route("/api/login", name="api_login", methods={"POST"})
+     */
+    public function apiLogin(){
+        $user = $this->getUser();
+        return $this->json([
+            'username' => $user->getUserIdentifier(),
+            'roles' => $user->getRoles()
+        ]);
+    }
+
+    /**
+     * @Route("/logout", name="app_logout")
+     */
+    public function logout()
+    {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+
+        return $this->redirectToRoute('app_login');
+    }
+
+        /**
      * @Route("/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $entityManager): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('homepage');
@@ -42,15 +63,5 @@ class SecurityController extends AbstractController
             'error' => $error,
             'registrationForm' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/logout", name="app_logout")
-     */
-    public function logout()
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-
-        return $this->redirectToRoute('app_login');
     }
 }

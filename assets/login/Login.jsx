@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react"
 import { render, unmountComponentAtNode } from "react-dom"
-import { useFetch } from "../comments/hooks"
+import { getToken, useFetch } from "../comments/hooks"
 import { Icon } from "../components/Icon"
 import { Name, Password } from "./LoginForm"
 
@@ -10,9 +10,8 @@ function Login () {
     const password = useRef(null)
 
     /*------ HOOKS ------*/
-    const method = 'post'
     const url = '/login_check'
-    const {load, loading, errors, clearError} = useFetch(url, method)
+    const {load, loading, errors, clearError} = getToken(url)
 
     /*------- METHOD------*/
     const onSubmit = useCallback(e => {
@@ -50,12 +49,7 @@ function Login () {
             </div>
 
             <input type="submit" className="btn" value="Login" disabled={loading}/>
-            <div className="options-02">
-                <p>
-                    Pas de compte? <a href="#">Inscrivez-vous...</a>
-                </p>
-            </div>
-        </form>
+        </form> 
     </div>
 }
 

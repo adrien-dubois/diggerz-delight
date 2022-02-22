@@ -23,7 +23,7 @@ function Comments({post, user}) {
         loading, 
         count, 
         hasMore
-    } = usePaginatedFetch('comments/post=' + post + '&page=1')
+    } = usePaginatedFetch('/v1/comments/post=' + post + '&page=1')
 
     // When adding comment, we put the new comment on the top of the list
     const addComment = useCallback(comment => {
