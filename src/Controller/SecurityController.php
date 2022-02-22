@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/api/login", name="api_login", methods={"POST"})
+     * @Route("/api/login", name="app_login", methods={"POST"})
      */
     public function apiLogin(){
         $user = $this->getUser();

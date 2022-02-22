@@ -31,10 +31,12 @@ class AuthenticationSuccessListener{
         $name = $find->getFullName();
         $id = $find->getId();
         $role = $find->getRoles();
+        $mail = $find->getEmail();
 
         $data['data'] = array(
             'id' => $id,
-            'username' => $name,
+            'username' => $mail,
+            'full_name' => $name,
             'roles' => $role
         );
 

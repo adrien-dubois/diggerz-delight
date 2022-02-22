@@ -13,7 +13,7 @@ class AuthenticationFailureListener
  */
     public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event)
     {
-        $response = new JWTAuthenticationFailureResponse('Identifiants incorrects, vérifiez email & mot de passe', JsonResponse::HTTP_UNAUTHORIZED);
+        $response = new JWTAuthenticationFailureResponse('Identifiants incorrects', JsonResponse::HTTP_UNAUTHORIZED);
 
         $event->setResponse($response);
     }

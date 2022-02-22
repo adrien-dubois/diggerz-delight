@@ -15,7 +15,8 @@ security:
                 property: email
         
         jwt:
-            lexik_jwt: ~
+            lexik_jwt: 
+                class: App\Entity\User
 
     firewalls:
         dev:
@@ -32,6 +33,8 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             logout:
                 path: app_logout
+            
+
 
         api:
             provider: jwt
@@ -39,14 +42,14 @@ security:
             pattern:   ^/api
             stateless: true
 
-        # main:
-        #     lazy: true
-        #     provider: app_user_provider
-        #     custom_authenticator: App\Security\LoginFormAuthenticator
-        #     json_login:
-        #         check_path: api_login_check
-        #     logout:
-        #         path: app_logout
+        main:
+            pattern: ^/
+            lazy: true
+            provider: app_user_provider
+            # custom_authenticator: App\Security\LoginFormAuthenticator
+
+            logout:
+                path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
 

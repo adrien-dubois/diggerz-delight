@@ -119,6 +119,7 @@ export function getToken(url){
             const token = response.data['token']
             localStorage.setItem('jwt', token)
             setLoading(false)
+            window.location = '/'
         } catch(error){
             setLoading(false)
             const err = error.response.data

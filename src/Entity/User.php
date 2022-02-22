@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * 
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUserInterface
 {
     /**
      * @ORM\Id
@@ -321,4 +321,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public static function createFromPayload($username, array $payload)
+    {
+        return new self(
+            $payload['username'],
+            $payload['id']
+        );
+    }
 }
