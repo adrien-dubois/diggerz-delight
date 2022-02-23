@@ -18,19 +18,23 @@ class JWTSubscriber implements EventSubscriberInterface
     
     public function onLexikJwtAuthenticationOnJwtCreated(JWTCreatedEvent $event)
     {
-        $data = $event->getData();
+        $payload = $event->getData();
         $user = $event->getUser();
 
-        if(!$user instanceof UserInterface){
-            return;
-        }
 
         $users = $user->getUserIdentifier();
         $find = $this->repository->findOneBy(['email' => $users]);
         
-        $data['username'] = $find->getEmail();
-        $data['id'] = $find->getId();
-        $event->setData($data);
+        
+        $user = $event->getUser();
+        
+        $payload          = $event->getData();  
+        $payload['id'] = $find->getId();
+        $payload['roles'] = $user->getRoles();
+        $payload['email'] = $user->getUserIdentifier();
+        $payload['exp']   = (new \DateTimeImmutable())->getTimestamp() + 86400;
+
+        $event->setData($payload);
     }
 
     public static function getSubscribedEvents()

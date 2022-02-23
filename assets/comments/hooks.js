@@ -120,6 +120,7 @@ export function getToken(url){
             localStorage.setItem('jwt', token)
             setLoading(false)
             window.location = '/'
+            
         } catch(error){
             setLoading(false)
             const err = error.response.data

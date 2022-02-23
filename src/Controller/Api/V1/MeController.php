@@ -23,6 +23,6 @@ class MeController extends AbstractController{
     {
         $user = $this->security->getUser();
 
-        return $user ;
+        return $this->json($user) ;
     }
 }
