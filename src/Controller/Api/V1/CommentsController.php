@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 /**
  * @Route("/api/v1/comments", name="api_v1_comments_", requirements={"id" = "\d+"})
@@ -221,7 +222,7 @@ class CommentsController extends AbstractController
             ], 404
             );
         }
-
+        
         $serializer->deserialize($jsonData, Comment::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE=>$comment]);
 
         $em->flush();

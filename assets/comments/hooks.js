@@ -114,19 +114,14 @@ export function getToken(url){
         setLoading(true)
 
         const params = JSON.stringify(data)
-        const mail = data["username"]
-        const pass = data["password"]
-        const connect = JSON.stringify({
-            'email' : mail,
-            'password': pass
-        })
+
         try{
             const response = await tokenAxios.post(url, params)
             const token = response.data['token']
             localStorage.setItem('jwt', token)
-            tokenAxios.post('/login', connect)
+            tokenAxios.post('/login', params)
             setLoading(false)
-            window.location = '/'
+            // window.location = '/'
             
         } catch(error){
             setLoading(false)
