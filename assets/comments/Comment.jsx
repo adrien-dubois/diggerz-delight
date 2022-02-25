@@ -23,7 +23,7 @@ function Comments({post, user}) {
         loading, 
         count, 
         hasMore
-    } = usePaginatedFetch('/v1/comments/post=' + post + '&page=1')
+    } = usePaginatedFetch('api/v1/comments/post=' + post + '&page=1')
 
     // When adding comment, we put the new comment on the top of the list
     const addComment = useCallback(comment => {
@@ -94,7 +94,7 @@ const Comment = React.memo(({comment, onDelete, canEdit, onUpdate}) => {
     // Variable state which allows me to know the current condition
     const [state, setState] = useState(VIEW)
     // Hook call to delete
-    const{loading: loadingDelete, load: callDelete} = useFetch('/v1/comments/' + comment['id'], 'delete', onDeleteCallback)
+    const{loading: loadingDelete, load: callDelete} = useFetch('api/v1/comments/' + comment['id'], 'delete', onDeleteCallback)
 
     /*-------- RENDER RETURN --------*/
     return <div className="row">
@@ -152,7 +152,7 @@ const CommentForm = React.memo(({post, onComment, comment = null, onCancel = nul
     /*------ HOOKS ------*/
     
     const method = comment ? 'patch' : 'post'
-    const url = comment ? '/v1/comments/' + comment['id'] : '/v1/comments/'
+    const url = comment ? 'api/v1/comments/' + comment['id'] : 'api/v1/comments/'
     const {load, loading, errors, clearError} = useFetch(url, method, onSuccess)
 
     /*------- METHOD------*/

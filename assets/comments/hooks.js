@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 const accessToken = localStorage.getItem('jwt');
-const apiURL = 'http://localhost:8080/api';
+const apiURL = 'http://localhost:8080/';
 
 
 const authAxios = axios.create({
@@ -103,7 +103,7 @@ export function useFetch (url, method, callback=null){
 export function getToken(url){
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false)
-    const authAxios = axios.create({
+    const tokenAxios = axios.create({
         baseURL: apiURL,
         headers: {
             Accept : 'application/json',
@@ -114,10 +114,17 @@ export function getToken(url){
         setLoading(true)
 
         const params = JSON.stringify(data)
+        const mail = data["username"]
+        const pass = data["password"]
+        const connect = JSON.stringify({
+            'email' : mail,
+            'password': pass
+        })
         try{
-            const response = await authAxios.post(url, params)
+            const response = await tokenAxios.post(url, params)
             const token = response.data['token']
             localStorage.setItem('jwt', token)
+            tokenAxios.post('/login', connect)
             setLoading(false)
             window.location = '/'
             

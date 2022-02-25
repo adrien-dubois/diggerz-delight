@@ -20,6 +20,8 @@ class AuthenticationSuccessListener{
 
         $data = $event->getData();
         $user = $event->getUser();
+        // dd($data, $user);
+        // dd('authentication success');
 
         if(!$user instanceof UserInterface){
             return;

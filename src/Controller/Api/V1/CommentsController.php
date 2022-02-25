@@ -174,7 +174,7 @@ class CommentsController extends AbstractController
         // Last : Content type
 
         /** @var Comment @comment */
-        $comment = $serializer->deserialize($jsonData, Comment::class, 'json');
+        $comment = $serializer->deserialize($jsonData, Comment::class, 'json',[AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER]);
 
         // We validate the datas stucked in $comment on criterias of annotations Entity @assert
         $errors = $validator->validate($comment);
@@ -257,6 +257,6 @@ class CommentsController extends AbstractController
         $em -> remove($comment);
         $em -> flush();
 
-        return $this->json(['ok' => "Le commentaire a bien été supprimé"], 200);
+        return $this->json(['ok' => "Le commentaire a bien été supprimé"], 200,[],[]);
     }
 }

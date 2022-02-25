@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react"
 import { render, unmountComponentAtNode } from "react-dom"
-import { getToken, useFetch } from "../comments/hooks"
+import { getToken } from "../comments/hooks"
 import { Icon } from "../components/Icon"
 import { Name, Password } from "./LoginForm"
 
@@ -10,7 +10,7 @@ function Login () {
     const password = useRef(null)
 
     /*------ HOOKS ------*/
-    const url = '/login_check'
+    const url = 'api/login_check'
     const {load, loading, errors, clearError} = getToken(url)
 
     /*------- METHOD------*/
