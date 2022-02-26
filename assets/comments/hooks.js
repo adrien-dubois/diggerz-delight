@@ -104,7 +104,7 @@ export function getToken(url){
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false)
     const tokenAxios = axios.create({
-        baseURL: apiURL,
+        baseURL: apiURL,    
         headers: {
             Accept : 'application/json',
             'Content-Type' : 'application/json' 
@@ -121,7 +121,7 @@ export function getToken(url){
             localStorage.setItem('jwt', token)
             tokenAxios.post('/login', params)
             setLoading(false)
-            // window.location = '/'
+            window.location = '/'
             
         } catch(error){
             setLoading(false)

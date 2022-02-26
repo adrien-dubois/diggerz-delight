@@ -94,6 +94,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
         $this->roles = array('ROLE_USER');
     }
 
+    public function __toString()
+    {
+        return $this->fullName;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
