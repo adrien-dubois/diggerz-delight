@@ -17,23 +17,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * 
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"comment", "post"})
+     * @Groups({"comment", "post", "user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"user"})
      */
     private $roles = [];
 
@@ -45,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"post"})
+     * @Groups({"post", "user"})
      */
     private $picture;
 
@@ -56,6 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"user"})
      */
     private $createdAt;
 
@@ -76,7 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"comment", "post"})
+     * @Groups({"comment", "post", "user"})
      */
     private $fullName;
 
@@ -102,12 +105,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(?int $id): self
-    {
-        $this->id = $id;
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -326,8 +323,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
         return $this;
     }
 
-    public static function createFromPayload($username, array $payload)
-    {
-        return (new User())->setEmail($payload['username'])->setId($payload['id']);
-    }
 }

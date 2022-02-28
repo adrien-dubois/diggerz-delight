@@ -5,15 +5,19 @@ namespace App\EventListener;
 
 use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthenticationSuccessListener{
 
     private $repository;
+    private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $repository, UrlGeneratorInterface $urlGenerator)
     {
         $this->repository = $repository;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event){
@@ -43,5 +47,6 @@ class AuthenticationSuccessListener{
         );
 
         $event->setData($data);
+
     }
 }

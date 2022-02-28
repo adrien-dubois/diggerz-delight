@@ -121,9 +121,9 @@ export function getToken(url){
             localStorage.setItem('jwt', token)
             tokenAxios.post('/login', params)
             setLoading(false)
-            window.location = '/'
-            
-        } catch(error){
+
+        }
+        catch(error){
             setLoading(false)
             const err = error.response.data
             if (err.violations){

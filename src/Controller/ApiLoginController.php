@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,17 +10,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiLoginController extends AbstractController
 {
-
     /**
-     * @Route("/login", name="app_login", methods={"POST"})
+     * @Route("/connect", name="connect")
      */
-    public function index(Request $request)
+    public function index()
     {
-        // $test = $request;
-        // dd($test);
+        $user = $this->getUser();
+        // dd($user);
+        if(!$user){
+            
+        }
 
         return $this->json([
-            'user' => $this->getUser(),
+            'user' => $user->getUserIdentifier()
         ]);
     }
 }
